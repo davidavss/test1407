@@ -11,6 +11,7 @@ pool:
 
 steps:
 
+# Build WAR with Maven
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
@@ -22,14 +23,14 @@ steps:
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'clean package'
 
-# Copy the generated JAR to the artifact folder
+# Copy generated WAR to artifact folder
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(System.DefaultWorkingDirectory)/target'
-    Contents: '*.jar'
+    Contents: '*.war'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-# Publish the JAR so Release can download it
+# Publish WAR artifact
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
